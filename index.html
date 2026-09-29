@@ -763,7 +763,7 @@ async function removeSampleEvents(){
   const samples=state.events.filter(e=>e.sample);
   if(!samples.length){toast('No samples','There are no sample events.',{icon:'close'});return;}
   const backup=samples.map(e=>({...e}));
-  for(const ev of samples){try{await store.delete('events',ev.id);}catch(_){}}
+  for(const ev of samples){try{await store.del('events',ev.id);}catch(_){}}
   state.events=state.events.filter(e=>!e.sample);
   if($('#flyout').classList.contains('open'))closeEditor();
   render();renderCats();
@@ -1181,7 +1181,7 @@ function renderCats(){
         evv.categoryId=fallback.id;
         try{await store.put('events',evv);}catch(_){}
       }
-      try{await store.delete('categories',c.id);}catch(_){}
+      try{await store.del('categories',c.id);}catch(_){}
       state.cats=state.cats.filter(x=>x.id!==c.id);
       state.hidden.delete(c.id);
       renderCats(); render();
@@ -1646,7 +1646,7 @@ function bindUI(){
       okLabel:'Delete',
     });
     if(!ok)return;
-    try{await store.delete('events',id);}catch(_){}
+    try{await store.del('events',id);}catch(_){}
     state.events=state.events.filter(e=>e.id!==id);
     lastDeleted=evv;
     closeEditor(); render(); renderCats();
